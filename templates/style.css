@@ -1,0 +1,7 @@
+a.updateIcon{
+    cursor: pointer;
+    text-decoration: none;
+}
+a.updateIcon img{
+    width: 20px;
+}

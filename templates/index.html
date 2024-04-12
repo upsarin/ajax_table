@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/templates/style.css">
+
+</head>
+<body>
+
+<div class="container">
+	<h2>{{ h2_title }}</h2>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>№</th>
+			<th>Название</th>
+			<th>Дата добавления</th>
+			<th>Дата изменения</th>
+			<th></th>
+		</tr>
+		</thead>
+		<tbody class="table__autoload">
+			{% for key, message in messages %}
+				<tr class="msg" data-insertDate="{{ message.insertDate }}">
+					<td>{{ key+1 }}</td>
+					<td class="elemName">{{ message.name }}</td>
+					<td>{{ message.insertDate }}</td>
+					<td>
+						{% if message.updateDate is not null %}
+							{{ message.updateDate }}
+						{% endif %}
+					</td>
+					<td><a class="updateIcon" data-toggle="modal" data-target="#myModalUpdate" data-elemID = "{{ message.id }}"><img src="/templates/settings.png"></a></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+		Добавить запись
+	</button>
+
+	<div class="modal" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Добавить запись</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="name">Название:</label>
+						<input type="text" class="form-control" id="name" name="name">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+					<button type="button" class="btn btn-primary save__data">Сохранить</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal" id="myModalUpdate">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Редактировать запись <span class="elem__id"></span></h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="nameUpdate">Название:</label>
+						<input type="text" class="form-control" id="nameUpdate" name="nameUpdate">
+
+						<input type="hidden" class="form-control" id="elemIDUpdate" name="elemIDUpdate">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+					<button type="button" class="btn btn-primary update__data">Обновить</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if pages_count is not null %}
+	<div class="container mt-5">
+		<nav aria-label="Page navigation">
+			<ul class="pagination" data-elemsCount="{{ element_count }}">
+				{% for i in 1..pages_count %}
+					<li class="page-item {{ i == 1 ? ' active' : '' }}"><a class="page-link" href="#" data-page="{{ i }}">{{ i }}</a></li>
+				{% endfor %}
+			</ul>
+		</nav>
+	</div>
+{% endif %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/templates/script.js"></script>
+
+</body>
+</html>
